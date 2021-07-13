@@ -23,20 +23,34 @@ provider:
   profile: rs-store-admin
   stage: dev
 
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+package:
+  individually: true
+
 functions:
   getProductsList:
-    handler: getProductsList.handler
+    handler: product-service/getProductsList.handler
     events:
       - http:
-          path: /products
+          path: products
           method: GET
           cors:
             origin: '*'
   getProductsById:
-    handler: getProductsById.handler
+    handler: product-service/getProductsById.handler
     events:
       - http:
-          path: /products/{productId}
+          path: products/{productId}
           method: GET
           cors:
             origin: '*'
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: false
+    packager: 'npm'
+    excludeFiles: '__tests__/**/*.test.ts'

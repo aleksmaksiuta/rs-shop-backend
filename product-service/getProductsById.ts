@@ -1,18 +1,19 @@
 'use strict';
-const products = require('./productsList.json');
+import { Handler } from 'aws-lambda';
+import ProductsService from './service/ProductsService';
 
-module.exports.handler = async (event) => {
+export const handler: Handler = async (event: any) => {
   const { productId } = event.pathParameters;
 
-  const productFound = products.find(({ id }) => id === productId);
+  const productFound = await ProductsService.getById(productId);
 
   if (!productFound) {
     return {
       statusCode: 404,
       headers: {
         'Access-Control-Allow-Origin': '*',
-      }
-    }
+      },
+    };
   }
 
   return {
@@ -20,6 +21,6 @@ module.exports.handler = async (event) => {
     body: JSON.stringify(productFound),
     headers: {
       'Access-Control-Allow-Origin': '*',
-    }
-  }
+    },
+  };
 };
