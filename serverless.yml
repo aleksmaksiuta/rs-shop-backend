@@ -1,0 +1,56 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: product-service
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  region: eu-west-1
+  profile: rs-store-admin
+  stage: dev
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+package:
+  individually: true
+
+functions:
+  getProductsList:
+    handler: product-service/getProductsList.handler
+    events:
+      - http:
+          path: products
+          method: GET
+          cors:
+            origin: '*'
+  getProductsById:
+    handler: product-service/getProductsById.handler
+    events:
+      - http:
+          path: products/{productId}
+          method: GET
+          cors:
+            origin: '*'
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: false
+    packager: 'npm'
+    excludeFiles: '__tests__/**/*.test.ts'
