@@ -1,11 +1,11 @@
 'use strict';
-import { Handler } from 'aws-lambda';
-import ProductsService from './service/ProductsService';
+import { Handler, APIGatewayEvent } from 'aws-lambda';
+import { Products } from './services';
 
-export const handler: Handler = async (event: any) => {
+export const handler: Handler = async (event: APIGatewayEvent) => {
   try {
-    const { productId } = event.pathParameters;
-    const productFound = await ProductsService.getById(productId);
+    const { productId }: any = event.pathParameters;
+    const productFound = await Products.getById(productId);
 
     return {
       statusCode: 200,

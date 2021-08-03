@@ -1,10 +1,10 @@
 'use strict';
 import { Handler } from 'aws-lambda';
-import ProductsService from './service/ProductsService';
+import { Products } from './services';
 
 export const handler: Handler = async () => {
   try {
-    const products =  await ProductsService.getAll();
+    const products = await Products.getAll();
 
     return {
       statusCode: 200,

@@ -29,7 +29,9 @@
     "@types/aws-lambda": "^8.10.78",
     "@types/jest": "^26.0.24",
     "@types/lambda-tester": "^3.6.1",
+    "@types/pg": "^8.6.1",
     "@types/supertest": "^2.0.11",
+    "dotenv": "^10.0.0",
     "jest": "^27.0.6",
     "lambda-tester": "^4.0.1",
     "serverless-offline": "^7.0.0",
@@ -45,5 +47,8 @@
   },
   "jest": {
     "verbose": true
+  },
+  "dependencies": {
+    "pg": "^8.7.1"
   }
 }

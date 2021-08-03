@@ -47,6 +47,14 @@ functions:
           method: GET
           cors:
             origin: '*'
+  createProduct:
+    handler: product-service/createProduct.handler
+    events:
+      - http:
+          path: products
+          method: POST
+          cors:
+            origin: '*'
 
 custom:
   webpack:
