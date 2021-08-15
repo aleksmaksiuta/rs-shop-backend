@@ -17,12 +17,28 @@ describe('createProduct', () => {
           body: data,
         })
         .expectResult(({ statusCode, body }) => {
-          console.log(body);
-
           expect(statusCode).toEqual(200);
           expect(body).toBeDefined();
           expect(body.id).not.toBeUndefined();
         });
+    } catch (e) {
+      console.error(e);
+    }
+  });
+  it('should throw an Error when invalid data passed', async () => {
+    try {
+      const data: IProduct = {
+        title: null,
+        description: 'Test',
+        count: 1,
+        price: 1,
+      };
+
+      return lambdaTester(handler)
+          .event({ body: data })
+          .expectResult(({ statusCode }) => {
+            expect(statusCode).toEqual(400);
+          });
     } catch (e) {
       console.error(e);
     }

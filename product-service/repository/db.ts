@@ -1,4 +1,5 @@
 import { Client } from 'pg';
+import InternalServerError from '../ServerError';
 
 const {
     DB_USER,
@@ -21,7 +22,7 @@ const db = async (): Promise<Client> => {
 
     return client;
   } catch (e) {
-    console.log(e);
+    throw new InternalServerError();
   }
 };
 

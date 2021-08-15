@@ -1,5 +1,6 @@
 import db from './db';
 import { IProduct } from '../types/Product';
+import InternalServerError from '../ServerError';
 
 const getAll = async (): Promise<[IProduct]> => {
   const client = await db();
@@ -13,7 +14,7 @@ const getAll = async (): Promise<[IProduct]> => {
 
     return rows;
   } catch (e) {
-    console.log(e);
+    throw new InternalServerError();
   } finally {
     client.end();
   }
@@ -32,7 +33,7 @@ const getOne = async ({ id }): Promise<IProduct> => {
 
     return rows[0];
   } catch (e) {
-    console.log(e);
+    throw new InternalServerError();
   } finally {
     client.end();
   }
@@ -56,7 +57,7 @@ const createOne = async (product: IProduct): Promise<string> => {
 
     return rows[0];
   } catch (e) {
-    console.log(e);
+    throw new InternalServerError();
   } finally {
     client.end();
   }

@@ -1,9 +1,11 @@
 'use strict';
-import { Handler } from 'aws-lambda';
+import { APIGatewayEvent, Handler } from 'aws-lambda';
 import { Products } from './services';
+import logger from './logger';
 
-export const handler: Handler = async () => {
+export const handler: Handler = async (event: APIGatewayEvent) => {
   try {
+    logger('getProductsList', event);
     const products = await Products.getAll();
 
     return {
