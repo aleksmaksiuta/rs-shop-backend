@@ -1,6 +1,7 @@
 import lambdaTester from 'lambda-tester';
 import { handler } from '../../product-service/createProduct';
 import { IProduct } from '../../product-service/types/Product';
+import {IResponse} from '../../product-service/types/Response';
 
 describe('createProduct', () => {
   it('should create item', async () => {
@@ -16,7 +17,7 @@ describe('createProduct', () => {
         .event({
           body: data,
         })
-        .expectResult(({ statusCode, body }) => {
+        .expectResult(({ statusCode, body }: IResponse) => {
           expect(statusCode).toEqual(200);
           expect(body).toBeDefined();
           expect(body.id).not.toBeUndefined();
@@ -28,6 +29,7 @@ describe('createProduct', () => {
   it('should throw an Error when invalid data passed', async () => {
     try {
       const data: IProduct = {
+        // @ts-ignore
         title: null,
         description: 'Test',
         count: 1,
@@ -36,7 +38,7 @@ describe('createProduct', () => {
 
       return lambdaTester(handler)
           .event({ body: data })
-          .expectResult(({ statusCode }) => {
+          .expectResult(({ statusCode }: IResponse) => {
             expect(statusCode).toEqual(400);
           });
     } catch (e) {

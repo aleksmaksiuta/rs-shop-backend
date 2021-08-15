@@ -15,6 +15,10 @@ service: product-service
 
 frameworkVersion: '2'
 
+variablesResolutionMode: 20210326
+
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs12.x
@@ -22,16 +26,16 @@ provider:
   region: eu-west-1
   profile: rs-store-admin
   stage: dev
-  DB_USER: ${env:DB_USER}
-  DB_SERVER: ${env:DB_SERVER}
-  DB_PASSWORD: ${env:DB_PASSWORD}
-  DB_PORT: ${env:DB_PORT}
-  DB_DATABASE: ${env:DB_DATABASE}
+  environment:
+    DB_USER: ${env:DB_USER}
+    DB_SERVER: ${env:DB_SERVER}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_PORT: ${env:DB_PORT}
+    DB_DATABASE: ${env:DB_DATABASE}
 
 plugins:
   - serverless-offline
   - serverless-webpack
-  - serverless-dotenv-plugin
 
 package:
   individually: true

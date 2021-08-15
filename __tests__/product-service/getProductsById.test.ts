@@ -1,13 +1,14 @@
 import lambdaTester from 'lambda-tester';
 import { handler } from '../../product-service/getProductsById';
 import { handler as getAllProducts } from '../../product-service/getProductsList';
+import {IResponse} from '../../product-service/types/Response';
 
 describe('getProductsById', () => {
   it('should return 404', () => {
     try {
       return lambdaTester(handler)
           .event({ pathParameters: '' })
-          .expectResult(({ statusCode }) => {
+          .expectResult(({ statusCode }: IResponse) => {
             expect(statusCode).toEqual(404);
           });
     } catch (e) {
@@ -31,7 +32,7 @@ describe('getProductsById', () => {
             productId: data[0].id,
           },
         })
-        .expectResult(({ statusCode, body }) => {
+        .expectResult(({ statusCode, body }: IResponse) => {
           expect(statusCode).toEqual(200);
           expect(body).toBeDefined();
           expect(body.id === data[0].id);

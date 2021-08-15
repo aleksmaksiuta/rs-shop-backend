@@ -28,7 +28,7 @@ const createOne = async (product: IProduct):Promise<string> => {
 
   const productId = await Products.createOne(product);
 
-  await Stock.createOne({ product_id: productId, count: product.count });
+  await Stock.createOne({ product_id: productId, count: product.count || 0 });
 
   return productId;
 };

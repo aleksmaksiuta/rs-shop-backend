@@ -16,6 +16,13 @@ export const handler: Handler = async (event: APIGatewayEvent) => {
       },
     };
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
+    return {
+      statusCode: e.statusCode,
+      message: e.name,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    };
   }
 };

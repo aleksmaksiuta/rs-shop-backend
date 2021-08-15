@@ -1,6 +1,6 @@
 import db from './db';
 import { IStock } from '../types/Stock';
-import InternalServerError from '../ServerError';
+import InternalServerError from '../InternalServerError';
 
 const createOne = async (stock: IStock) => {
   const client = await db();
@@ -20,7 +20,7 @@ const createOne = async (stock: IStock) => {
 
     return rows[0];
   } catch (e) {
-    throw new InternalServerError();
+    throw new InternalServerError(e.message);
   } finally {
     client.end();
   }
