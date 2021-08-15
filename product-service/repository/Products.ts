@@ -6,14 +6,12 @@ const getAll = async (): Promise<[IProduct]> => {
   const client = await db();
 
   try {
-    debugger;
     const { rows }: any = await client.query(`
             select p.id, p.title, p.description, p.price, s.count from products p
                 join stock s
                 on p.id = s.product_id
         `);
 
-    debugger;
     return rows;
   } catch (e) {
     throw new InternalServerError(e.message);

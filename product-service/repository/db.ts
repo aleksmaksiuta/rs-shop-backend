@@ -16,9 +16,6 @@ const config = {
 };
 
 const db = async (): Promise<any> => {
-  console.log(config);
-
-  console.log(Client);
   try {
     const client = new Client(config);
     await client.connect();
