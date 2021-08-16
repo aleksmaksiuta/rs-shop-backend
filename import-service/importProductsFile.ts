@@ -9,7 +9,7 @@ export const handler: Handler = async (event: APIGatewayEvent) => {
     const signedUrl = await getSignedUrl(event.queryStringParameters?.name || '');
 
     return {
-      body: signedUrl,
+      body: JSON.stringify(signedUrl),
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',

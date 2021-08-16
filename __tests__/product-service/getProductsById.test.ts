@@ -1,7 +1,7 @@
 import lambdaTester from 'lambda-tester';
 import { handler } from '../../product-service/getProductsById';
 import { handler as getAllProducts } from '../../product-service/getProductsList';
-import {IResponse} from '../../product-service/types/Response';
+import { IResponse } from '../../product-service/types/Response';
 
 describe('getProductsById', () => {
   it('should return 404', () => {

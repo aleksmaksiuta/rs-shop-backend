@@ -1,6 +1,6 @@
 import lambdaTester from 'lambda-tester';
 import { handler } from '../../product-service/getProductsList';
-import {IResponse} from '../../product-service/types/Response';
+import { IResponse } from '../../product-service/types/Response';
 
 describe('getProductsList', () => {
   it('should return data', () => {

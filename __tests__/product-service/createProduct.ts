@@ -1,7 +1,7 @@
 import lambdaTester from 'lambda-tester';
 import { handler } from '../../product-service/createProduct';
 import { IProduct } from '../../product-service/types/Product';
-import {IResponse} from '../../product-service/types/Response';
+import { IResponse } from '../../product-service/types/Response';
 
 describe('createProduct', () => {
   it('should create item', async () => {

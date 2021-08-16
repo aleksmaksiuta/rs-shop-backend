@@ -24,14 +24,13 @@ provider:
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
   region: eu-west-1
-  profile: rs-store-admin
+  profile: ${env:AWS_PROFILE}
   stage: dev
   environment:
     DB_USER: ${env:DB_USER}
     DB_SERVER: ${env:DB_SERVER}
     DB_PASSWORD: ${env:DB_PASSWORD}
     DB_PORT: ${env:DB_PORT}
-    AWS_REGION: ${env:AWS_REGION}
     AWS_UPLOAD_BUCKET: ${env:AWS_UPLOAD_BUCKET}
     AWS_UPLOAD_BUCKET_CATALOG: ${env:AWS_UPLOAD_BUCKET_CATALOG}
 
@@ -42,7 +41,7 @@ provider:
         - Fn::Join:
             - ''
             - - 'arn:aws:s3:::'
-              - Ref: ${env.AWS_UPLOAD_BUCKET}
+              - ${env:AWS_UPLOAD_BUCKET}
 plugins:
   - serverless-offline
   - serverless-webpack
@@ -83,10 +82,10 @@ functions:
           method: GET
           cors:
             origin: '*'
-
           request:
-            querystrings:
-              name: true
+            parameters:
+              querystrings:
+                name: true
   importFileParser:
     handler: import-service/importFileParser.handler
     events:
