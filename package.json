@@ -51,6 +51,8 @@
     "verbose": true
   },
   "dependencies": {
+    "aws-sdk": "^2.969.0",
+    "csv-parser": "^3.0.0",
     "pg": "^8.7.1"
   }
 }

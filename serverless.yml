@@ -31,8 +31,18 @@ provider:
     DB_SERVER: ${env:DB_SERVER}
     DB_PASSWORD: ${env:DB_PASSWORD}
     DB_PORT: ${env:DB_PORT}
-    DB_DATABASE: ${env:DB_DATABASE}
+    AWS_REGION: ${env:AWS_REGION}
+    AWS_UPLOAD_BUCKET: ${env:AWS_UPLOAD_BUCKET}
+    AWS_UPLOAD_BUCKET_CATALOG: ${env:AWS_UPLOAD_BUCKET_CATALOG}
 
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action: 's3:ListBucket'
+      Resource:
+        - Fn::Join:
+            - ''
+            - - 'arn:aws:s3:::'
+              - Ref: ${env.AWS_UPLOAD_BUCKET}
 plugins:
   - serverless-offline
   - serverless-webpack
@@ -65,6 +75,28 @@ functions:
           method: POST
           cors:
             origin: '*'
+  importProductsFile:
+    handler: import-service/importProductsFile.handler
+    events:
+      - http:
+          path: import
+          method: GET
+          cors:
+            origin: '*'
+
+          request:
+            querystrings:
+              name: true
+  importFileParser:
+    handler: import-service/importFileParser.handler
+    events:
+      - s3:
+          bucket: ${env:AWS_UPLOAD_BUCKET}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: ${env:AWS_UPLOAD_BUCKET_CATALOG}/
+            - suffix: .csv
+          existing: true
 
 custom:
   webpack:
