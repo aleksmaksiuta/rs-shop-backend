@@ -10,9 +10,9 @@ export const handler: Handler = async (event: APIGatewayEvent) => {
     const productId = await Products.createOne(product);
 
     return {
-      body: {
+      body: JSON.stringify({
         id: productId,
-      },
+      }),
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -20,9 +20,9 @@ export const handler: Handler = async (event: APIGatewayEvent) => {
     };
   } catch (e) {
     return {
-      body: {
+      body: JSON.stringify({
         error: e.name,
-      },
+      }),
       statusCode: e.statusCode,
       headers: {
         'Access-Control-Allow-Origin': '*',
