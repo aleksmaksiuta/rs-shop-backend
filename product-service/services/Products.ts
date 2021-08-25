@@ -26,11 +26,11 @@ const createOne = async (product: IProduct):Promise<string> => {
     throw new InvalidDataError();
   }
 
-  const productId = await Products.createOne(product);
+  const { id }: IProduct = await Products.createOne(product);
 
-  await Stock.createOne({ product_id: productId, count: product.count || 0 });
+  await Stock.createOne({ product_id: id, count: product.count || 0 });
 
-  return productId;
+  return id;
 };
 
 export default {

@@ -15,7 +15,7 @@ const createOne = async (stock: IStock) => {
         insert into stock
             (product_id, count)
         values
-            (${product_id}, ${count})
+            ('${product_id}', ${count})
       `);
 
     return rows[0];
