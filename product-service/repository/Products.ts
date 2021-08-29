@@ -39,7 +39,7 @@ const getOne = async ({ id }: { id: string }): Promise<IProduct> => {
   }
 };
 
-const createOne = async (product: IProduct): Promise<string> => {
+const createOne = async (product: IProduct): Promise<any> => {
   const client = await db();
 
   try {

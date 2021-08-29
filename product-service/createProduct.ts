@@ -6,7 +6,7 @@ import logger from './logger';
 export const handler: Handler = async (event: APIGatewayEvent) => {
   try {
     logger('createProduct', event);
-    const product: any = event.body;
+    const product: any = JSON.parse(event.body);
     const productId = await Products.createOne(product);
 
     return {
