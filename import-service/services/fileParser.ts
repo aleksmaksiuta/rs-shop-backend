@@ -3,9 +3,10 @@ import csvParser from 'csv-parser';
 import InternalServerError from '../../product-service/InternalServerError';
 
 const {
-  AWS_REGION, AWS_UPLOAD_BUCKET, AWS_UPLOAD_BUCKET_CATALOG, AWS_TARGET_BUCKET_CATALOG,
+  AWS_REGION, AWS_UPLOAD_BUCKET, AWS_UPLOAD_BUCKET_CATALOG, AWS_TARGET_BUCKET_CATALOG, SQS_QUEUE,
 } = process.env;
 const S3 = new awsSdk.S3({ region: AWS_REGION });
+const SQS = new awsSdk.SQS();
 
 export const fileParser = async () => {
   try {
@@ -30,14 +31,23 @@ export const fileParser = async () => {
           Key: key,
         };
 
-        console.log('ObjParams', objectParams);
-
         S3
             .getObject(objectParams)
             .createReadStream()
             .pipe(csvParser())
             .on('data', (data) => {
-              console.log(JSON.stringify(data));
+              SQS.sendMessage(
+                {
+                  QueueUrl: SQS_QUEUE,
+                  MessageBody: JSON.stringify(data),
+                },
+                (err, data) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.log(data);
+                  }
+                });
             })
             .on('error', (e) => {
               throw new Error(`Parsing error: ${e.message}`);

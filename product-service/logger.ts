@@ -1,6 +1,4 @@
-import { APIGatewayEvent } from 'aws-lambda';
-
-const logger = (handler: any, event: APIGatewayEvent) => {
+const logger = (handler: any, event: any) => {
   const {
         httpMethod,
         path,

@@ -35,6 +35,10 @@ provider:
     AWS_UPLOAD_BUCKET: ${env:AWS_UPLOAD_BUCKET}
     AWS_UPLOAD_BUCKET_CATALOG: ${env:AWS_UPLOAD_BUCKET_CATALOG}
     AWS_TARGET_BUCKET_CATALOG: ${env:AWS_TARGET_BUCKET_CATALOG}
+    SQS_QUEUE:
+      Ref: catalogItemsQueue
+    SNS_ARN:
+      Ref: createProductTopic
 
   iamRoleStatements:
     - Effect: 'Allow'
@@ -43,17 +47,39 @@ provider:
         - 's3:GetObject'
         - 's3:DeleteObject'
         - 's3:PutObject'
+      Resource: 'arn:aws:s3:::*'
+    - Effect: 'Allow'
+      Action: 'sqs:*'
       Resource:
-        - Fn::Join:
-            - ''
-            - - 'arn:aws:s3:::'
-              - ${env:AWS_UPLOAD_BUCKET}
+        - Fn::GetAtt: [ catalogItemsQueue, Arn ]
+    - Effect: 'Allow'
+      Action: 'sns:*'
+      Resource:
+        Ref: createProductTopic
 plugins:
   - serverless-offline
   - serverless-webpack
 
 package:
   individually: true
+
+resources:
+  Resources:
+    catalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue
+    createProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+    createProductTopicSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: aleks.maksiuta.aws@gmail.com
+        Protocol: email
+        TopicArn:
+          Ref: createProductTopic
 
 functions:
   getProductsList:
@@ -102,6 +128,15 @@ functions:
             - prefix: ${env:AWS_UPLOAD_BUCKET_CATALOG}/
             - suffix: .csv
           existing: true
+  catalogBatchProcess:
+    handler: product-service/catalogBatchProcess.handler
+    events:
+      - sqs:
+          batchSize: 2
+          arn:
+            Fn::GetAtt:
+              - catalogItemsQueue
+              - Arn
 
 custom:
   webpack:

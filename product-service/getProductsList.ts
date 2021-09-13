@@ -16,7 +16,6 @@ export const handler: Handler = async (event: APIGatewayEvent) => {
       },
     };
   } catch (e) {
-    console.log(e);
     return {
       statusCode: e.statusCode,
       message: e.name,
