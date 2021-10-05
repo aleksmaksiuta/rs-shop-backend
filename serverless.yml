@@ -35,6 +35,8 @@ provider:
     AWS_UPLOAD_BUCKET: ${env:AWS_UPLOAD_BUCKET}
     AWS_UPLOAD_BUCKET_CATALOG: ${env:AWS_UPLOAD_BUCKET_CATALOG}
     AWS_TARGET_BUCKET_CATALOG: ${env:AWS_TARGET_BUCKET_CATALOG}
+    AUTH_USERNAME: ${env:USERNAME}
+    AUTH_PASSWORD: ${env:PASS}
     SQS_QUEUE:
       Ref: catalogItemsQueue
     SNS_ARN:
@@ -80,18 +82,6 @@ resources:
         Protocol: email
         TopicArn:
           Ref: createProductTopic
-    basicAuthorizerRole:
-      Type: AWS::IAM::Role
-      Properties:
-        RoleName: "basicAuthorizer"
-        AssumeRolePolicyDocument:
-          Statement:
-            - Effect: "Allow"
-              Action:
-                - "sts:AssumeRole"
-        ManagedPolicyArns:
-          - "arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess"
-          - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 
 functions:
   basicAuthorizer:
@@ -132,7 +122,12 @@ functions:
             parameters:
               querystrings:
                 name: true
-          authorizer: basicAuthorizer
+          authorizer:
+            name: basicAuthorizer
+            arn: "arn:aws:lambda:eu-west-1:262451165559:function:product-service-dev-basicAuthorizer"
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
   importFileParser:
     handler: import-service/importFileParser.handler
     events:
