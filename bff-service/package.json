@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "eb:init": "eb init --platform node.js --region eu-west-1 --profile rs-store-admin",
     "eb:create": "eb create development --single --cname aleksmaksiuta-bff-api-develop",
+    "eb:deploy": "eb deploy",
     "eb:env": "eb setenv `cat .env | sed '/^#/ d' | sed '/^$/ d'`",
     "start": "node app.js"
   },
@@ -15,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.22.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "dotenv": "^10.0.0"
   }
 }
