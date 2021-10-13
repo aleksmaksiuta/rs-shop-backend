@@ -50,3 +50,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
+  /product:
+    put:
+      summary: Adds a product
+      responses:
+        '200':
+          description: Created product id
+          content:
+            application/json:
+              id:
+                type: string
+  /import:
+    get:
+      summary: Generates an AWS S3 import link
+      parameters:
+        - name: name
+          in: query
+          type: string
+          description: Name of file to be imported via link
+      responses:
+        200:
+          description: S3 import link
+          content:
+            schema:
+              type: string
