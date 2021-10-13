@@ -10,6 +10,10 @@ Technologies used:
 
 API: [SwaggerHUB][https://app.swaggerhub.com/apis/rs-guitar-store/rs-guitar_store_api/1.0.0]
 
+Cart Service: [Repo][https://github.com/aleksmaksiuta/rs-cart-api]
+
 [https://app.swaggerhub.com/apis/rs-guitar-store/rs-guitar_store_api/1.0.0]: https://app.swaggerhub.com/apis/rs-guitar-store/rs-guitar_store_api/1.0.0
 
 [https://github.com/aleksmaksiuta/shop-react-redux-cloudfront]: https://github.com/aleksmaksiuta/shop-react-redux-cloudfront
+
+[https://github.com/aleksmaksiuta/rs-cart-api]: https://github.com/aleksmaksiuta/rs-cart-api
